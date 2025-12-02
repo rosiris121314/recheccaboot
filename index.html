@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="robots" content="noindex, nofollow">
+  <title>F0toalbum D1skrétní</title>
+  <meta property="og:title" content="F0toalbum D1skrétní">
+  <meta property="og:image" content="https://i.postimg.cc/pdZYP1Wh/FB-IMG-1745458661111.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+
+        body {
+
+            font-family: 'Poppins', sans-serif;
+
+            margin: 0;
+
+            overflow: hidden;
+
+            background-color: #000;
+
+        }
+
+        #background-video {
+
+            position: fixed;
+
+            top: 50%;
+
+            left: 50%;
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            transform: translateX(-50%) translateY(-50%);
+
+            z-index: -1;
+
+            filter: blur(5px);
+
+        }
+
+        /* Contenedor principal para centrar el desafío */
+
+        #main-container-wrapper {
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            width: 100%;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+        }
+
+        .container {
+
+            width: 90%;
+
+            max-width: 400px;
+
+            text-align: center;
+
+            padding: 40px 30px;
+
+            border-radius: 20px;
+
+            background-color: rgba(0, 0, 0, 0.25);
+
+            backdrop-filter: blur(10px);
+
+            border: 1px solid rgba(255, 255, 255, 0.2);
+
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
+            color: white;
+
+        }
+
+        h2 {
+
+            font-size: 24px;
+
+            margin-top: 0;
+
+            margin-bottom: 20px;
+
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+
+        }
+
+        .question {
+
+            font-size: 28px;
+
+            font-weight: 700;
+
+            margin-bottom: 20px;
+
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+
+        }
+
+        /* Estilo para las preguntas de sí/no */
+
+        .buttons-block {
+
+            display: flex;
+
+            justify-content: space-around;
+
+            margin-top: 20px;
+
+        }
+
+        .step-btn {
+
+            padding: 12px 25px;
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            border-radius: 10px;
+
+            transition: background 0.3s ease;
+
+            width: 45%; /* Ajusta el ancho para dos botones */
+
+        }
+
+        /* === MODIFICACIÓN CLAVE PARA EL TAMAÑO DE LOS BOTONES VERIFICAR y I ACCEPT === */
+
+        .yes-btn, .submit-btn {
+
+            background: #E94057; /* Rojo */
+
+            color: white;
+
+            border: none;
+
+            /* Aumento de padding para hacerlo más alto y ancho */
+
+            padding: 15px 40px;
+
+            width: 80%; /* Hacer que el ancho sea el mismo que el input */
+
+            max-width: 300px;
+
+            margin: 10px auto; /* Centrar y agregar margen superior/inferior */
+
+        }
+
+        /* ========================================================================= */
+
+        .no-btn {
+
+            background: #4A4A4A; /* Gris */
+
+            color: white;
+
+            border: none;
+
+        }
+
+        .yes-btn:hover, .submit-btn:hover {
+
+            background: #F27121;
+
+        }
+
+        .no-btn:hover {
+
+            background: #666666;
+
+        }
+
+        .input {
+
+            padding: 12px;
+
+            font-size: 18px;
+
+            width: 80%;
+
+            border-radius: 10px;
+
+            border: 1px solid rgba(255, 255, 255, 0.5);
+
+            background-color: rgba(255, 255, 255, 0.2);
+
+            color: white;
+
+            text-align: center;
+
+            margin-top: 10px;
+
+        }
+
+        .input::placeholder {
+
+            color: rgba(255,255,255,0.7);
+
+        }
+
+        .message {
+
+            font-size: 16px;
+
+            margin-top: 20px;
+
+            height: 20px;
+
+        }
+
+        .error {
+
+            color: #FFD2D2;
+
+        }
+
+        .success {
+
+            color: #4CAF50;
+
+            font-weight: bold;
+
+        }
+
+        /* Oculta el contador sin afectar el diseño */
+
+        #contador-oculto {
+
+            display: none !important;
+
+        }
+
+        /* Oculta los pasos que no están activos */
+
+        .step {
+
+            display: none;
+
+        }
+
+        /* Estilo para el texto de confirmación final */
+
+        .note-text {
+
+            font-size: 16px;
+
+            margin-top: 20px;
+
+            margin-bottom: 25px;
+
+            padding: 10px;
+
+            border-radius: 5px;
+
+            background-color: rgba(255, 255, 255, 0.1);
+
+        }
+
+        /* Ajuste específico para el contenedor del botón I ACCEPT en el Paso 3 */
+
+        #step-3-confirm .buttons-block {
+
+             /* Esto asegura que el botón I ACCEPT (que es submit-btn) se centre correctamente */
+
+            justify-content: center;
+
+            flex-direction: column;
+
+            align-items: center;
+
+        }
+</style>
+</head>
+<body>
+  <video autoplay muted loop playsinline id="background-video">
+   <source src="https://cdn.videy.co/7PNHaKZW1.mp4" type="video/mp4"> Tu navegador no soporta vídeos HTML5.
+  </video>
+  <div id="main-container-wrapper">
+   <div class="container" id="main-container">
+    <div id="step-1-captcha" class="step" style="display: block;">
+     <h2>Ověřte, že nejste bot</h2>
+     <h2>
+      <div class="question" id="math-question">Nabíjení...</div>
+      <input type="number" id="user-answer" class="input" placeholder="Vaše odpověď" autofocus>
+      <button class="submit-btn" id="verify-button">Ověřiteeeeee</button>
+      <div id="message" class="message"></div>
+     </h2>
+    </div>
+    <div id="step-2-question" class="step">
+     <h2>Otázka 1</h2>
+     <div class="question">jNež se podíváš na následující katalog nahých fotek, slib mi, že se o tyto fotky holek nebudeš dělit, ano?</div>
+     <div class="buttons-block">
+      <button class="step-btn no-btn" style="width: 45%; max-width: none; padding: 12px 25px;" onclick="nextStep(3)">NE</button>
+      <button class="step-btn yes-btn" style="width: 45%; max-width: none; padding: 12px 25px;" onclick="nextStep(3)">jO</button>
+     </div>
+     <div class="message"></div>
+    </div>
+    <div id="step-3-confirm" class="step">
+     <h2>Gratuluji!</h2>
+     <div class="note-text">POZNÁMKA: Chcete-li kontaktovat dívku z této stránky, musíte se zaregistrovat pomocí své e-mailové adresy, poté potvrdit schůzku a vybrat si dívku, se kterou si můžete splnit své nejšpinavější fantazie...</div>
+     <p><b class="success">Ověření dokončeno.</b></p>
+     <div class="buttons-block">
+      <a href="https://miworkiinlinehhoy.sbs/recommends/ccpaalinnk" class="submit-btn" style="text-decoration: none;">ENTER</a>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+
+        let correctSumAnswer = 0; // Almacena la respuesta correcta de la suma
+
+        // 1. Genera y muestra el problema de suma (1-10)
+
+        function generateMathProblem() {
+
+            const num1 = Math.floor(Math.random() * 10) + 1;
+
+            const num2 = Math.floor(Math.random() * 10) + 1;
+
+            correctSumAnswer = num1 + num2;
+
+            // Muestra la suma en el elemento del Paso 1
+
+            const questionElement = document.getElementById('math-question');
+
+            if (questionElement) {
+
+                questionElement.textContent = `${num1} + ${num2} = ?`;
+
+            }
+
+        }
+
+        // 2. Función para controlar la navegación entre pasos
+
+        function nextStep(stepNumber) {
+
+            // Oculta todos los pasos
+
+            document.querySelectorAll('.step').forEach(step => {
+
+                step.style.display = 'none';
+
+            });
+
+            // Muestra el paso deseado
+
+            const targetStep = document.getElementById(`step-${stepNumber}-` + (stepNumber === 1 ? 'captcha' : (stepNumber === 2 ? 'question' : 'confirm')));
+
+            if (targetStep) {
+
+                targetStep.style.display = 'block';
+
+                // En el Paso 2 o 3, limpiamos el mensaje del paso anterior
+
+                if (stepNumber > 1) {
+
+                    document.getElementById('message').innerHTML = '';
+
+                }
+
+            }
+
+        }
+
+        // 3. Verifica la respuesta del CAPTCHA (Paso 1)
+
+        function verifyAnswer() {
+
+            const answerInput = document.getElementById("user-answer");
+
+            const userAnswer = parseInt(answerInput.value.trim(), 10);
+
+            const messageElement = document.getElementById("message");
+
+            if (isNaN(userAnswer) || answerInput.value.trim() === '') {
+
+                messageElement.innerHTML = '<span class="error">Ingresa un número.</span>';
+
+                return;
+
+            }
+
+            if (userAnswer === correctSumAnswer) {
+
+                // Correcto: Avanza al Paso 2
+
+                messageElement.innerHTML = '<span class="success">¡Opravit!</span>';
+
+                // Espera un momento antes de avanzar para mostrar el mensaje
+
+                setTimeout(() => nextStep(2), 500);
+
+            } else {
+
+                // Incorrecto: Muestra error, limpia el campo y genera una nueva suma
+
+                messageElement.innerHTML = '<span class="error">Nesprávná odpověď.</span>';
+
+                answerInput.value = '';
+
+                generateMathProblem();
+
+            }
+
+        }
+
+        // Inicialización
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            generateMathProblem(); // Genera la primera suma
+
+            // Asigna la función de verificación al botón del Paso 1
+
+            const verifyButton = document.getElementById('verify-button');
+
+            if (verifyButton) {
+
+                verifyButton.addEventListener('click', verifyAnswer);
+
+            }
+
+            // Permite enviar la respuesta presionando Enter en el campo
+
+            const answerInput = document.getElementById('user-answer');
+
+            if (answerInput) {
+
+                answerInput.addEventListener('keypress', function (e) {
+
+                    if (e.key === 'Enter') {
+
+                        e.preventDefault();
+
+                        verifyAnswer();
+
+                    }
+
+                });
+
+            }
+
+        });
+</script>
+  <script type="text/javascript">
+
+    /*<![CDATA[*/    (function(w){
+
+    w.backOfferUrl = ''    }
+
+    (window));
+
+    /*]]>*/
+</script>
+</body>
+</html> 
